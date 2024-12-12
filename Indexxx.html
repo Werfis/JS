@@ -19,7 +19,6 @@
 <body>
 
 <script>
-    // Данные для круговой диаграммы
     let data = [14.6, 7.5, 77.9];
     let labels = ["Ритуал", "Изгнание", "Не получили ни одну концовку"];
 
@@ -38,8 +37,6 @@
             fill(getColor(i));
             arc(width / 2, height / 2, 300, 300, startAngle, startAngle + angles[i], PIE);
             startAngle += angles[i];
-
-            // Рисуем подписи
             let angle = startAngle - angles[i] / 2;
             let x = width / 2 + cos(angle) * 150;
             let y = height / 2 + sin(angle) * 150;
