@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изменение цвета списка</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: lightblue;
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <h2>Список игр</h2>
+    <ul id="itemList">
+        <li>Hollow Knight</li>
+        <li>Pale Court</li>
+        <li>The Last Of Us</li>
+    </ul>
+    <button id="changeColorButton">Все игры пройдены</button>
+
+    <script>
+        const button = document.getElementById('changeColorButton');
+        button.addEventListener('click', function() {
+            const listItems = document.querySelectorAll('#itemList li');
+            listItems.forEach(item => {
+                item.style.backgroundColor = 'green'; 
+            });
+        });
+    </script>
+</body>
+</html>
