@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Визуализатор звука</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+        #defaultCanvas0 {
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    let sound;
+    let isInitialised = false;
+    let isLoaded = false;
+    let fft;
+    const columns = 64;
+
+    function preload() {
+        soundFormats('mp3', 'wav');
+        sound = loadSound('file:///D:/assets/Змей%20Андрей.mp3', () => {
+            console.log("Звук загружен!");
+            isLoaded = true;
+        });
+    }
+
+    function setup() {
+        createCanvas(1024, 512);
+        fft = new p5.FFT();
+        sound.setVolume(0.2);
+        sound.loop();
+    }
+
+    function draw() {
+        background(0);
+        if (!isInitialised) {
+            textAlign(CENTER);
+            textSize(32);
+            fill(255);
+            text("Нажмите любую клавишу для начала", width / 2, height / 2);
+        } else {
+            let spectrum = fft.analyze();
+            let barWidth = width / columns;
+
+            for (let i = 0; i < columns; i++) {
+                let avgAmplitude = 0;
+                let count = 0;
+
+                for (let j = -2; j <= 2; j++) {
+                    let index = constrain(i + j, 0, spectrum.length - 1);
+                    avgAmplitude += spectrum[index];
+                    count++;
+                }
+                avgAmplitude /= count;
+                let barHeight = map(avgAmplitude, 0, 255, 0, height);
+                fill(100, 200, 255);
+                rect(i * barWidth, height - barHeight, barWidth - 2, barHeight);
+            }
+        }
+    }
+
+    function keyPressed() {
+        if (!isInitialised) {
+            isInitialised = true;
+        }
+    }
+</script>
+
+</body>
+</html>
