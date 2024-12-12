@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Круговая диаграмма</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    // Данные для круговой диаграммы
+    let data = [14.6, 7.5, 77.9];
+    let labels = ["Ритуал", "Изгнание", "Не получили ни одну концовку"];
+
+    function setup() {
+        createCanvas(400, 400);
+        noLoop();
+    }
+
+    function draw() {
+        background(255);
+        let total = data.reduce((sum, value) => sum + value, 0);
+        let angles = data.map(value => map(value, 0, total, 0, TWO_PI));
+
+        let startAngle = 0;
+        for (let i = 0; i < data.length; i++) {
+            fill(getColor(i));
+            arc(width / 2, height / 2, 300, 300, startAngle, startAngle + angles[i], PIE);
+            startAngle += angles[i];
+
+            // Рисуем подписи
+            let angle = startAngle - angles[i] / 2;
+            let x = width / 2 + cos(angle) * 150;
+            let y = height / 2 + sin(angle) * 150;
+            fill(0);
+            textAlign(CENTER, CENTER);
+            text(labels[i], x, y);
+        }
+    }
+    function getColor(index) {
+        let colors = ['#e32636', '#ca3a27', '#7442c8'];
+        return colors[index % colors.length];
+    }
+</script>
+
+</body>
+</html>
